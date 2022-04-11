@@ -38,8 +38,11 @@ namespace ecommerceProjectMVC
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ContextEntities>();
-            
-            services.AddScoped<IProductOrderRepository, ProductOrderRepository>();
+
+            services.AddScoped<IProductOrderRepository,ProductOrderRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<ICartRepository, CartRepository>();
 
 
         }

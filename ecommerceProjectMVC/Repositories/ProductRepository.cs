@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace ecommerceProjectMVC.Repositories
 {
-    public class ProductRepositories : IProductRepositories
+    public class ProductRepository : IProductRepository
     {
         ContextEntities db;
 
-        public ProductRepositories(ContextEntities _db)
+        public ProductRepository(ContextEntities _db)
         {
             db = _db;
         }

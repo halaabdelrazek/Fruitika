@@ -9,7 +9,7 @@ namespace ecommerceProjectMVC.Repositories
     {
         ContextEntities DB;
 
-        ProductOrderRepository(ContextEntities _DB)
+        public ProductOrderRepository(ContextEntities _DB)
         {
             DB = _DB;
         }

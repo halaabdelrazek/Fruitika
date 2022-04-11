@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ecommerceProjectMVC.Repositories
 {
-    public interface IProductRepositories
+    public interface IProductRepository
     {
         int add(Product p);
         int delete(int id);

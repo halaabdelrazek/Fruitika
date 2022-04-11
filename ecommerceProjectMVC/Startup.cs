@@ -29,6 +29,9 @@ namespace ecommerceProjectMVC
         {
 
             services.AddControllersWithViews();
+
+           
+
             services.AddDbContext<ContextEntities>(builder => {
                 builder.UseSqlServer(Configuration.GetConnectionString("CS"));
             });
@@ -37,6 +40,7 @@ namespace ecommerceProjectMVC
                 .AddEntityFrameworkStores<ContextEntities>();
             
             services.AddScoped<IProductOrderRepository, ProductOrderRepository>();
+
 
         }
 

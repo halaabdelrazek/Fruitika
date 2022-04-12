@@ -10,7 +10,7 @@ namespace ecommerceProjectMVC.Models
 
         [Required]
         [MinLength(3)]
-        [MaxLength(30)]
+        [MaxLength(100)]
         public string ProductName { get; set; }
         [Required]
         public string Description { get; set; }

@@ -23,6 +23,11 @@ namespace ecommerceProjectMVC.Repositories
             return db.Products.FirstOrDefault(p => p.ProductId == id);
         }
 
+        public List<Product>getByCategoryId(int id)
+        {
+            return db.Products.Where(p=>p.CategoryId == id).ToList();
+        }
+
         public int add(Product p)
         {
             db.Products.Add(p);

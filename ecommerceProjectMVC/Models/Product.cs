@@ -14,7 +14,7 @@ namespace ecommerceProjectMVC.Models
         public string ProductName { get; set; }
         [Required]
         public string Description { get; set; }
-        [Required]
+
         public string Image { get; set; }
         [Required]
         public double Price { get; set; }

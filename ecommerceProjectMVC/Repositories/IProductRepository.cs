@@ -8,6 +8,7 @@ namespace ecommerceProjectMVC.Repositories
         int add(Product p);
         int delete(int id);
         List<Product> get();
+        List<Product> getByCategoryId(int id);
         Product getById(int id);
         int update(int id, Product newProduct);
     }

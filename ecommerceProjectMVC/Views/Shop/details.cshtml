@@ -1,0 +1,35 @@
+﻿
+@model Product
+	
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Fruitikha";
+}
+
+<!-- single product -->
+	<div class="single-product mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5">
+					<div class="single-product-img">
+						<img src="/assets/img/products/@Model.Image" alt="">
+					</div>
+				</div>
+				<div class="col-md-7">
+					<div class="single-product-content">
+						<h3>Green apples have polyphenols</h3>
+						<p class="single-product-pricing"><span>Per Kg</span> @Model.Price</p>
+						<p>@Model.Description</p>
+						<div class="single-product-form">
+							<form action="index.html">
+								<input type="number" placeholder="0">
+							</form>
+							<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+							<p><strong>Categories: </strong>@Model.Category</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end single product -->

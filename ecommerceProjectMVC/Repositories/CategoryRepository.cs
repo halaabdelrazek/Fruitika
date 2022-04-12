@@ -15,17 +15,17 @@ namespace ecommerceProjectMVC.Repositories
 
         public List<Category> GetAll()
         {
-            return context.Categories.ToList();
+            return context.Category.ToList();
         }
 
         public Category GetByID(int id)
         {
-            return context.Categories.FirstOrDefault(c => c.CategoryId == id);
+            return context.Category.FirstOrDefault(c => c.CategoryId == id);
         }
 
         public int Insert(Category category)
         {
-            context.Categories.Add(category);
+            context.Category.Add(category);
 
             int raw = context.SaveChanges();
             return raw;
@@ -38,6 +38,7 @@ namespace ecommerceProjectMVC.Repositories
             {
                 oldCatergory.Name = category.Name;
                 oldCatergory.Description = category.Description;
+                oldCatergory.Image = category.Image;
                 return context.SaveChanges();
             }
             return 0;
@@ -45,9 +46,8 @@ namespace ecommerceProjectMVC.Repositories
 
         public int Delete(int id)
         {
-            context.Categories.Remove(GetByID(id));
+            context.Category.Remove(GetByID(id));
             return context.SaveChanges();
         }
-
     }
 }

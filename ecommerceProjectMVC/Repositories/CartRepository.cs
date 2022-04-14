@@ -5,9 +5,16 @@ namespace ecommerceProjectMVC.Repositories
 {
     public class CartRepository : ICartRepository
     {
+        ContextEntities context;
+        public CartRepository(ContextEntities _context)
+        {
+            context = _context;
+
+        }
         public int Delete(int id)
         {
-            throw new System.NotImplementedException();
+            context.Carts.Remove(GetById(id));
+            return context.SaveChanges();
         }
 
         public List<Cart> GetAll()

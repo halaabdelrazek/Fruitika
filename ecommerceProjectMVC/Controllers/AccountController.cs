@@ -39,6 +39,7 @@ namespace ecommerceProjectMVC.Controllers
                 newUserModel.UserName = newUser.UserName;
                 newUserModel.Address = newUser.Address;
                 newUserModel.PasswordHash = newUser.Password;
+                newUserModel.Email = newUser.Email;
                 newUserModel.Image = newUser.Image;
 
                 IdentityResult result = await userManager.CreateAsync(newUserModel, newUser.Password);
@@ -116,6 +117,7 @@ namespace ecommerceProjectMVC.Controllers
                 newUserModel.UserName = newUser.UserName;
                 newUserModel.Address = newUser.Address;
                 newUserModel.PasswordHash = newUser.Password;
+                newUserModel.Email = newUser.Email;
                 newUserModel.Image = newUser.Image;
                 IdentityResult result = await userManager.CreateAsync(newUserModel, newUser.Password);
                 if (result.Succeeded)

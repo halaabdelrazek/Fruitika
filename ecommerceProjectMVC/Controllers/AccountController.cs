@@ -22,6 +22,10 @@ namespace ecommerceProjectMVC.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "HomePage");
+            }
             return View();
         }
         [HttpPost]
@@ -41,6 +45,7 @@ namespace ecommerceProjectMVC.Controllers
                 newUserModel.PasswordHash = newUser.Password;
                 newUserModel.Email = newUser.Email;
                 newUserModel.Image = newUser.Image;
+                newUserModel.PhoneNumber = newUser.PhoneNumber;
 
                 IdentityResult result = await userManager.CreateAsync(newUserModel, newUser.Password);
                 if (result.Succeeded)
@@ -74,12 +79,17 @@ namespace ecommerceProjectMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult login()
+        public IActionResult login(string returnUrl = "~/Homepage/Index")
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "HomePage");
+            }
+            ViewData["ReturnUrl"]=returnUrl;
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> login(loginViewModel user)
+        public async Task<IActionResult> login(loginViewModel user,string returnUrl="~/Homepage/Index")
         {
             ApplicationUser foundedUser = await userManager.FindByNameAsync(user.UserName);
             if (foundedUser != null)
@@ -88,7 +98,7 @@ namespace ecommerceProjectMVC.Controllers
                 if (result == true)
                 {
                     await signInManager.SignInAsync(foundedUser, user.RememberMe);
-                    return RedirectToAction("Index", "HomePage");
+                    return LocalRedirect(returnUrl);
 
                 }
             }
@@ -119,6 +129,8 @@ namespace ecommerceProjectMVC.Controllers
                 newUserModel.PasswordHash = newUser.Password;
                 newUserModel.Email = newUser.Email;
                 newUserModel.Image = newUser.Image;
+                newUserModel.PhoneNumber = newUser.PhoneNumber;
+
                 IdentityResult result = await userManager.CreateAsync(newUserModel, newUser.Password);
                 if (result.Succeeded)
                 {

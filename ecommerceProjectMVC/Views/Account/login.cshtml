@@ -4,15 +4,18 @@
     ViewData["Title"] = "login";
     Layout = "~/Views/Shared/_Fruitikha.cshtml";
 }
-
+<div class="container">
+        <main role="main" class="pb-3">
 <h1>login</h1>
 
-<h4>loginViewModel</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="login">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" name="returnUrl" value="@ViewData["returnUrl"]">
+
             <div class="form-group">
                 <label asp-for="UserName" class="control-label"></label>
                 <input asp-for="UserName" class="form-control" />
@@ -29,16 +32,17 @@
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Login" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-controller="HomePage">Back to List</a>
 </div>
-
+</main>
+</div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

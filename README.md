@@ -1,7 +1,6 @@
 # Fruitika
-Ecommerce using MVC Core
---
-This is a full stack C# ASP.NET e-commerce store that sells Fruits!
+
+This is a full stack C# ASP.NET MVC e-commerce store that sells Fruits!
 
 **Authors**: Sara Elhawary <br />
 **Version**: 1.0.0

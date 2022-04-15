@@ -20,10 +20,14 @@ namespace ecommerceProjectMVC.Controllers
             List<Cart> cartItems = cartRepository.GetCartContent(userId);
             List<Product> cartProducts=cartRepository.GetCartProducts(cartRepository.GetProductsIds(cartItems));
 
-
-
             return View(cartItems);
         }
 
+        [HttpGet("{id:int}")]
+        public IActionResult RemoveItem(int id)
+        {
+            return View(id);
+
+        }
     }
 }

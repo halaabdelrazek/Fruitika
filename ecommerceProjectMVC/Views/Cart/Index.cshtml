@@ -1,4 +1,4 @@
-﻿
+﻿@Model List<Cart>
 @{
    
     ViewData["Title"] = "Cart";
@@ -48,6 +48,17 @@
 									<td class="product-quantity"><input type="number" placeholder="0"></td>
 									<td class="product-total">1</td>
 								</tr>*@
+								@foreach (var cartItem in Model)
+							   {
+								   <tr class="table-body-row">
+									<td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
+								<td class="product-image"><img src=@cartItem. alt=""></td>
+								<td class="product-name">@cartItem.ProductId</td>
+									<td class="product-price">@cartItem.Price</td>
+									@*<td class="product-quantity"><input type="number" placeholder="0"></td>
+									<td class="product-total">1</td>*@
+								</tr>
+							   }
 							</tbody>
 						</table>
 					</div>

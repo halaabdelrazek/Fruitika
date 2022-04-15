@@ -7,8 +7,8 @@ namespace ecommerceProjectMVC.Repositories
     public class CartRepository :ICartRepository
     {
         ContextEntities context;
-        ProductRepository productRepository;
-        public CartRepository(ContextEntities _context, ProductRepository _productRepository)
+        IProductRepository productRepository;
+        public CartRepository(ContextEntities _context, IProductRepository _productRepository)
         {
             context = _context;
             productRepository = _productRepository;
@@ -22,13 +22,13 @@ namespace ecommerceProjectMVC.Repositories
         }
 
         public List<Cart> GetAll()
-        {
+        {   
             return context.Carts.ToList();
         }
 
         public List<Cart> GetCartContent(string _applicationUserId)
         {
-            return (List<Cart>)context.Carts.Where(cart => cart.ApplicationUserId == _applicationUserId);
+            return context.Carts.Where(cart => cart.ApplicationUserId == _applicationUserId).ToList();
         }
 
         public List<int> GetProductsIds(List<Cart> cartContent)

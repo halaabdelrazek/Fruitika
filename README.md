@@ -41,7 +41,7 @@ The following is required to run the program.
   . Microsoft.EntityFrameworkCore.Design (5.0.15)
 
 ## Build
-To run this locally, install the [.NET SDK package](https://www.microsoft.com/net/download/dotnet-core/5).
+To run this locally, install the [.NET SDK package](https://www.microsoft.com/net/download/dotnet-core/5.0).
 Clone this repo through a bash terminal and type the following commands:
 ```
 cd Fruitika

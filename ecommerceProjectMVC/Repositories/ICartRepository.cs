@@ -14,5 +14,6 @@ namespace ecommerceProjectMVC.Repositories
         List<int> GetProductsIds(List<Cart> cartContent);
         int Insert(Cart newCart);
         public int UpdateProductQuantityAndPrice(int quantity, int productId, string userId);
+        public int ClearOutCart(string userId);
     }
 }

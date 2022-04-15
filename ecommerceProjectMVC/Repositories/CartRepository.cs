@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ecommerceProjectMVC.Repositories
 {
-    public class CartRepository : ICartRepository
+    public class CartRepository :ICartRepository
     {
         ContextEntities context;
         ProductRepository productRepository;
@@ -13,6 +13,8 @@ namespace ecommerceProjectMVC.Repositories
             context = _context;
             productRepository = _productRepository;
         }
+
+       
         public int Delete(int id)
         {
             context.Carts.Remove(GetById(id));
@@ -52,7 +54,7 @@ namespace ecommerceProjectMVC.Repositories
 
         public int Insert(Cart newCart)
         {
-            newCart.Price = productRepository.getById(newCart.ProductId).Price * newCart.Quantity;
+            //newCart.Price = productRepository.getById(newCart.ProductId).Price * newCart.Quantity;
             context.Carts.Add(newCart);
             return context.SaveChanges();
         }
@@ -76,6 +78,17 @@ namespace ecommerceProjectMVC.Repositories
             cartItem.Quantity = quantity;
             return context.SaveChanges();
             
+        }
+
+        public int ClearOutCart(string userId)
+        {
+            List<Cart> userCartItems=context.Carts.Where(cart=>cart.ApplicationUserId == userId).ToList();
+            
+            foreach (Cart cart in userCartItems)
+            {
+                context.Carts.Remove(cart);
+            }
+            return context.SaveChanges();
         }
 
     }

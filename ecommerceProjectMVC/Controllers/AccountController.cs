@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using System.Linq;
 
 namespace ecommerceProjectMVC.Controllers
 {
@@ -12,11 +15,13 @@ namespace ecommerceProjectMVC.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly ContextEntities context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,ContextEntities context)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.context = context;
         }
 
         [HttpGet]
@@ -157,6 +162,12 @@ namespace ecommerceProjectMVC.Controllers
             return View(newUser);
 
 
+        }
+        public async Task<ActionResult> GetUserOrders()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<Order> userorderList = context.Orders.Where(o => o.ApplicationUserId == userId).ToList();
+            return View();
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using ecommerceProjectMVC.Models;
 using ecommerceProjectMVC.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -7,9 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace ecommerceProjectMVC.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -31,16 +34,19 @@ namespace ecommerceProjectMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details()
         {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             ApplicationUser appUser = await userManager.FindByIdAsync(id);
 
             return View(appUser);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit()
         {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             ApplicationUser appUser = await userManager.FindByIdAsync(id);
 
             UserProfileViweModel userViewModel = new UserProfileViweModel();
@@ -62,8 +68,10 @@ namespace ecommerceProjectMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> SaveEdit(string id, UserProfileViweModel userView , IFormFile Image)
+        public async Task<IActionResult> SaveEdit( UserProfileViweModel userView , IFormFile Image)
         {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             ApplicationUser appUser = await userManager.FindByIdAsync(id);
 
             if (ModelState.IsValid == false)
@@ -125,10 +133,11 @@ namespace ecommerceProjectMVC.Controllers
 
         }
 
-        public async Task<IActionResult> SaveEditPassword(string id, UserProfileViweModel userView)
+        public async Task<IActionResult> SaveEditPassword( UserProfileViweModel userView)
         {
      
-           
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             ApplicationUser appUser = await userManager.FindByIdAsync(id);
             
             userView.Email = appUser.Email;
@@ -138,6 +147,7 @@ namespace ecommerceProjectMVC.Controllers
             userView.Image = appUser.Image;
             if (userView.OldPassword == null|| userView.NewPassword == null)
             {
+                
                  return View("Edit", userView);
                
 

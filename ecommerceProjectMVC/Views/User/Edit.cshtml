@@ -103,14 +103,14 @@
 									<button type="submit" class="btn Update">Update</button>
 									@*<input type="submit" value="Update" class="btn Update" />*@
 
-									<a  asp-action="details" asp-controller="user" asp-route-id="@Model.Id" class="btn btn-light">Cancel</a>
+									<a  asp-action="details" asp-controller="user"  class="btn btn-light">Cancel</a>
 								</div>
 							</form>
 						</div>
 				
 
 					<div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
-						<form asp-action="SaveEditPassword" asp-controller="User" asp-route-id="@Model.Id" method="post">
+						<form asp-action="SaveEditPassword" asp-controller="User"  method="post">
 								
 							<h3 class="mb-4">Password Settings</h3>
 								<div class="row">
@@ -142,9 +142,12 @@
 									</div>
 								</div>
 								<div>
-									 <button type="submit" class="btn Update">Update</button>
+									 <button type="submit" class="btn Update"
+									>Update</button>
 
-									 <a  asp-action="details" asp-controller="user" asp-route-id="@Model.Id" class="btn btn-light">Cancel</a>
+
+
+									 <a  asp-action="details" asp-controller="user"  class="btn btn-light">Cancel</a>
 
 								</div>
 							</form>	

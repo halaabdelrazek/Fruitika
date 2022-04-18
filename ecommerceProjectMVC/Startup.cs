@@ -39,6 +39,7 @@ namespace ecommerceProjectMVC
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ContextEntities>();
 
+            services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IProductOrderRepository,ProductOrderRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
@@ -54,6 +55,7 @@ namespace ecommerceProjectMVC
             }
             else
             {
+                app.UseStatusCodePagesWithRedirects("/Home/Error");
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
@@ -62,6 +64,7 @@ namespace ecommerceProjectMVC
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

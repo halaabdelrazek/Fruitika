@@ -35,9 +35,13 @@ namespace ecommerceProjectMVC.Repositories
 
         }
 
-        public int insert(ProductOrder po)
+        public int Insert(Product product,Order order,int quantity)
         {
-            DB.Add(po);
+            ProductOrder productOrder =new ProductOrder();
+            productOrder.OrderId = order.OrderId;
+            productOrder.ProductId = product.ProductId;
+            productOrder.Quantity = quantity;
+            DB.Add(productOrder);
             DB.SaveChanges();
             return 1;
             

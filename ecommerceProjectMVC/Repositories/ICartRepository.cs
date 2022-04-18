@@ -8,11 +8,12 @@ namespace ecommerceProjectMVC.Repositories
         int Delete(int id);
         List<Cart> GetAll();
         Cart GetById(int id);
+        List<Cart> GetCartContent(string _applicationUserId);
+        List<Product> GetCartProducts(List<int> productsIds);
+        double GetCartTotalPrice(string applicationUser);
+        List<int> GetProductsIds(List<Cart> cartContent);
         int Insert(Cart newCart);
-        int Update(int id, Cart updatedCart);
-
-        Cart GetByUserId(string userId);
-        List<Product> GetCartProducts(int id);
-        List<int> GetAllProductIds(int id);
+        public int UpdateProductQuantityAndPrice(int quantity, int productId, string userId);
+        public int ClearOutCart(string userId);
     }
 }

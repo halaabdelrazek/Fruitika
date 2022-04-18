@@ -1,4 +1,4 @@
-﻿
+﻿@model List<Cart>
 @{
    
     ViewData["Title"] = "Cart";
@@ -24,7 +24,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="table-body-row">
+							@*	<tr class="table-body-row">
 									<td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
 									<td class="product-image"><img src="assets/img/products/product-img-1.jpg" alt=""></td>
 									<td class="product-name">Strawberry</td>
@@ -47,7 +47,18 @@
 									<td class="product-price">$35</td>
 									<td class="product-quantity"><input type="number" placeholder="0"></td>
 									<td class="product-total">1</td>
+								</tr>*@
+								@foreach (var cartItem in Model)
+							   {
+								   <tr class="table-body-row">
+									<td class="product-remove"><a href="../RemoveItem/@cartItem.ProductId"><i class="far fa-window-close"></i></a></td>
+								<td class="product-image"><img src=@cartItem. alt=""></td>
+								<td class="product-name">@cartItem.ProductId</td>
+									<td class="product-price">@(cartItem.Price/cartItem.Quantity)</td>
+									<td class="product-quantity"><input type="number" placeholder="0" value="@cartItem.Quantity"></td>
+									<td class="product-total">@cartItem.Price</td>
 								</tr>
+							   }
 							</tbody>
 						</table>
 					</div>

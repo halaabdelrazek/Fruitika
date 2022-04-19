@@ -1,10 +1,73 @@
-﻿
-@model Product
+﻿@using ecommerceProjectMVC.viewModel
+
+@model ProductDetailsViewModel
 	
 @{
     ViewData["Title"] = "Home Page";
     Layout = "_Fruitikha";
 }
+
+<div class="hero-area hero-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-9 offset-lg-2 text-center">
+					<div class="hero-text">
+						<div class="hero-text-tablecell">
+							<p class="subtitle">Fresh & Organic</p>
+							<h1>Delicious Seasonal Fruits</h1>
+							<div class="hero-btns">
+								<a href="shop.html" class="boxed-btn">Fruit Collection</a>
+								<a href="contact.html" class="bordered-btn">Contact Us</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<!-- end hero area -->
+		<!-- features list section -->
+	<div class="list-section pt-80 pb-80">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+					<div class="list-box d-flex align-items-center">
+						<div class="list-icon">
+							<i class="fas fa-shipping-fast"></i>
+						</div>
+						<div class="content">
+							<h3>Free Shipping</h3>
+							<p>When order over $75</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+					<div class="list-box d-flex align-items-center">
+						<div class="list-icon">
+							<i class="fas fa-phone-volume"></i>
+						</div>
+						<div class="content">
+							<h3>24/7 Support</h3>
+							<p>Get support all day</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6">
+					<div class="list-box d-flex justify-content-start align-items-center">
+						<div class="list-icon">
+							<i class="fas fa-sync"></i>
+						</div>
+						<div class="content">
+							<h3>Refund</h3>
+							<p>Get refund within 3 days!</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
 
 <!-- single product -->
 	<div class="single-product mt-150 mb-150">
@@ -12,20 +75,20 @@
 			<div class="row">
 				<div class="col-md-5">
 					<div class="single-product-img">
-						<img src="/assets/img/products/@Model.Image" alt="">
+						<img src="/assets/img/products/@Model.product.Image" alt="">
 					</div>
 				</div>
 				<div class="col-md-7">
 					<div class="single-product-content">
-						<h3>Green apples have polyphenols</h3>
-						<p class="single-product-pricing"><span>Per Kg</span> @Model.Price</p>
-						<p>@Model.Description</p>
+						<h3 id="@Model.product.ProductId">@Model.product.ProductName</h3>
+						<p class="single-product-pricing"><span>Per Kg</span> @Model.product.Price</p>
+						<p>@Model.product.Description</p>
 						<div class="single-product-form">
-							<form action="index.html">
-								<input type="number" placeholder="0">
+							<form asp-action="cart" asp-controller="Shop" method="post" asp-route-id="@Model.product.ProductId">
+								<input asp-for="@Model.cart.Quantity" value="" id="cart_quantity" class="form-control"/>
+								<input type="text" onclick="addToCart()" value="Add To Cart" class="btn btn-primary"/>
 							</form>
-							<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-							<p><strong>Categories: </strong>@Model.Category</p>
+							<p><strong>Category: </strong>@Model.product.Category</p>
 						</div>
 					</div>
 				</div>
@@ -33,3 +96,23 @@
 		</div>
 	</div>
 	<!-- end single product -->
+
+
+	<script>
+		
+		function addToCart(){
+			var counter = document.getElementById("counter");
+			var id = @Model.cart.ProductId;
+			var quantity = document.getElementById("cart_quantity").value;
+			var price = @Model.product.Price;
+			var totalPrice = (price*quantity);
+			var userId = @Model.cart.;
+			localStorage.setItem("ProductId",id);
+			localStorage.setItem("Quantity",quantity);
+			localStorage.setItem("TotalPrice",totalPrice);
+			localStorage.setItem("userId",userId);
+			if(quantity){
+				counter.innerHTML ++;
+			}
+		}
+	</script>

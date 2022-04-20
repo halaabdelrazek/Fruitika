@@ -1,4 +1,5 @@
 ﻿using ecommerceProjectMVC.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,6 +17,11 @@ namespace ecommerceProjectMVC.Repositories
         public List<Product> get()
         {
             return db.Products.ToList();
+        }
+        
+        public List<Product> GetAllIncludeCategory()
+        {
+            return db.Products.Include("Category").ToList();
         }
 
         public Product getById(int id)
@@ -47,14 +53,11 @@ namespace ecommerceProjectMVC.Repositories
             Product old = getById(id);
             if (old != null)
             {
-                newProduct.ProductName = old.ProductName;
-                newProduct.ProductOrders = old.ProductOrders;
-                newProduct.Category = old.Category;
-                newProduct.Carts = old.Carts;
-                newProduct.CategoryId = old.CategoryId;
-                newProduct.Description = old.Description;
-                newProduct.Image = old.Image;
-                newProduct.Price = old.Price;
+                old.ProductName = newProduct.ProductName;
+                old.CategoryId = newProduct.CategoryId;
+                old.Description = newProduct.Description;
+                old.Image = newProduct.Image;
+                old.Price = newProduct.Price;
                 return db.SaveChanges();
             }
 

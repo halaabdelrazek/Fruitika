@@ -1,26 +1,55 @@
 ﻿@model List<ProductNameAndImageAndQuantityAndPriceViewModel>
+@inject IHttpContextAccessor HttpContextAccessor
+
 @{
 
 	ViewData["Title"] = "Cart";
 	Layout = "_Fruitikha";
 	double subTotal = 0;
 	int shipping = 20;
-
-	
+	//var sessionData =HttpContextAccessor.HttpContext.Session.GetString("cartContent").ToString();
+	//var items = ViewBag.cartitemsLC;
 
 }
 
 		<script>
-
-		function deleteRow(e){
+		document.addEventListener("load",()=>{
+			var removeBtn=document.getElementByClassName("product-remove")
+			removeBtn.map(row=>{
+			row.addEventListener("click",deleteCartItem)
+			})
+		})
+	
+		function deleteCartItem(e){
 			const table=document.getElementById("cart-table")
 			const rowNumber=e.path[3].rowIndex;
 			table.deleteRow(rowNumber);
-			//var sessionData= "System.Web.HttpContext.Session.GetString("cartContent").ToString()";
-
-			Console.log(sessionData);
-		
 		}
+
+		function submitSessionForm(){
+			var rows=document.getElementsByClassName("table-body-row")
+			var data=[]
+			var sendStr=" "
+
+			Array.from(rows).forEach(item=>{
+				const id=item.id
+				const quantity=item.cells[4].children[0].value
+				var model={
+					id,
+					quantity
+				}
+				data.push(model)
+			})
+			//console.log(data)
+			window.localStorage.setItem("cartContent",JSON.stringify(data))
+			var items=localStorage.getItem("cartContent")
+			 document.UpdateForm.lcInput.value = items;
+			return true;
+		}
+
+
+
+
 	</script>
 
 
@@ -33,7 +62,7 @@
 				<div class="col-lg-8 col-md-12">
 					<div class="cart-table-wrap">
 						<table class="cart-table" id="cart-table">
-							<thead class="cart-table-head">
+						@*	<thead class="cart-table-head">
 								<tr class="table-head-row">
 									<th class="product-remove"></th>
 									<th class="product-image">Product Image</th>
@@ -42,14 +71,14 @@
 									<th class="product-quantity">Quantity</th>
 									<th class="product-total">Total</th>
 								</tr>
-							</thead>
+							</thead>*@
 							<tbody>
 			
 								@foreach (var cartItem in Model)
 							   {
 								   subTotal+=cartItem.TotalPrice;
 								   <tr class="table-body-row" id="@cartItem.ProductId">
-										<td class="product-remove"><a  href="#" onclick="deleteRow(event)"><i class="far fa-window-close"></i></a></td>
+										<td class="product-remove"><a  href="#" onclick="deleteCartItem(event)"><i class="far fa-window-close"></i></a></td>
 										<td class="product-image"><img src=@cartItem.ProductImage alt=""></td>
 										<td class="product-name">@cartItem.ProductName</td>
 										<td class="product-price">@cartItem.UnitPrice</td>
@@ -82,13 +111,19 @@
 								</tr>
 								<tr class="total-data">
 									<td><strong>Total: </strong></td>
-									<td>@(subTotal)</td>
+									<td>@(subTotal+shipping)</td>
 								</tr>
 							</tbody>
 						</table>
 						<div class="cart-buttons">
-							<a href="cart.html" class="boxed-btn">Update Cart</a>
-							<a href="/checkout" class="boxed-btn black">Check Out</a>
+							<form name="UpdateForm" asp-action="GetData" asp-controller="Cart" method="post"  onsubmit="submitSessionForm();">
+								<div class="header-icons">
+									<input type="hidden" value="" name="lcInput"/>
+									<button type="submit" class="boxed-btn">Update Cart</button>
+								</div>
+							</form>
+@*							<a href="cart.html" class="boxed-btn">Update Cart</a>
+*@							<a href="/checkout" class="boxed-btn black">Check Out</a>
 						</div>
 					</div>
 

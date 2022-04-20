@@ -50,6 +50,7 @@ namespace ecommerceProjectMVC.Controllers
             //{
             #endregion
             var cartStr = HttpContext.Session.GetString("cartContent").ToString();
+            ViewBag.cartSessionStr=cartStr;
                 var cartItemsLC = JsonConvert.DeserializeObject<List<LCViewModel>>(cartStr);
                 foreach (var item in cartItemsLC)
                 {
@@ -81,7 +82,7 @@ namespace ecommerceProjectMVC.Controllers
             #endregion
             HttpContext.Session.SetString("cartContent",lcInput);
             return RedirectToAction("Index");
-        }
+            }
 
         [HttpGet("{id:int}")]
         public IActionResult RemoveItem(int id)

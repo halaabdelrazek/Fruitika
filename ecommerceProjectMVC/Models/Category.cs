@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ecommerceProjectMVC.Models
 {
@@ -13,8 +14,8 @@ namespace ecommerceProjectMVC.Models
         [Required]
         public string Image { get; set; }
         [Required]
-        public string Description { get; set; } 
-
+        public string Description { get; set; }
+        [JsonIgnore]
         public virtual List<Product> Products { get; set; }
     }
 }

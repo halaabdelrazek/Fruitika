@@ -1,0 +1,532 @@
+﻿@model List<Product>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Index";
+    //var catergoryList = new SelectList(ViewBag.Categories, "CategoryId", "Name");
+
+}
+
+<h2 class="editTitle templateTitle">Edit Information</h2>
+
+
+<div class="top-header-area" id="sticker">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 text-center">
+                <div class="main-menu-wrap">
+                    <!-- logo -->
+                    <div class="site-logo">
+                        <a href="index.html">
+                            <img src="assets/img/logo.png" alt="">
+                        </a>
+                    </div>
+                    <!-- logo -->
+                    <!-- menu start -->
+                    <nav class="main-menu">
+                        <ul>
+                            <li class="current-list-item">
+                                <a href="#">Logout</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+                    <div class="mobile-menu"></div>
+                    <!-- menu end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <p>Manage Products</p>
+                    <h1>Admin Dashboard</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cart-section mt-150 mb-150">
+    <div class="container">
+        <h3>Products</h3>
+
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="addBook">
+                    <form method="post" id="addProductForm">
+                        <input type="text" name="Image" placeholder="URL Img" />
+                        <input type="text" name="ProductName" placeholder="Product Name" />
+                        <textarea name="Description" id="Description" placeholder="Product Descriptoin"></textarea>
+                        <input type="number" name="Price" placeholder="Price" />
+                        
+                        <select name="CategoryId" id="CategoryId">
+                            @foreach (var category in ViewBag.Categories)
+                            {
+                                <option value="@category.CategoryId">@category.Name</option>
+                            }
+                        </select>
+                        
+                        <button id="add" name="addBookButton" value="add" onclick="addPorduct()">Add Porduct</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-md-12">
+                <div class="cart-table-wrap">
+                    <table class="cart-table">
+                        <thead class="cart-table-head">
+                            <tr class="table-head-row">
+                                <th class="product-id">Id</th>
+                                <th class="product-image">Product Image</th>
+                                <th class="product-name">Name</th>
+                                <th class="product-description">Description</th>
+                                <th class="product-price">Price</th>
+                                <th class="product-category">Category</th>
+                                <th class="product-quantity">Edit</th>
+                                <th class="product-total">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @foreach (var product in Model)
+                            {
+                                <tr id="@product.ProductId" style="height:80px; line-height:80px">
+                                    <td class="product-id">@product.ProductId</td>
+                                    <td class="product-image"><img src="@product.Image" alt=""></td>
+                                    <td class="product-name">@product.ProductName</td>
+                                    <td class="product-description">@product.Description</td>
+                                    <td class="product-price">$<span>@product.Price</span></td>
+                                    <td class="product-category" data-category-id="@product.CategoryId">@product.Category.Name</td>
+                                    <td class="product-edit"><img src="assets/img/pencil.svg" alt="edit" onclick="getEditProductToFrom('@product.ProductId')"></td>
+                                    <td class="product-delete"><img src="assets/img/garbage.svg" alt="delete" onclick="removeProduct('@product.ProductId')"></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+<script>
+
+    var imgInp = $( "input[type=text][name=Image]" );
+    var nameInp = $( "input[type=text][name=ProductName]" );
+    var descriptionInp = $( "textarea#Description" );
+    var pricInp = $('input[type=number][name=Price]');
+    //var categoryInp = $('#CategoryId option:selected');
+
+    var addButton = $('button#add');
+    var isEditEnd = true;
+
+
+    $("#addProductForm").submit(function(e) {
+        e.preventDefault();
+    });
+
+    function toggleIconsHover(){
+        document.querySelectorAll('.product-edit img').forEach(item => {
+            item.addEventListener('mouseenter', e => {
+                if (e.target.alt === 'edit') {
+                  e.target.src = "assets/img/pencil-hover.svg";
+                }
+                else {
+                    e.target.src = "assets/img/save.svg";
+                }
+            })
+            item.addEventListener('mouseleave', e => {
+                if (e.target.alt === 'edit') {
+                e.target.src = "assets/img/pencil.svg";
+                }
+                else {
+                  e.target.src = "assets/img/save-hover.svg";
+                }
+            })
+        })
+
+        document.querySelectorAll('.product-delete img').forEach(item => {
+            item.addEventListener('mouseenter', e => {
+              if (e.target.alt === 'delete') {
+                  e.target.src = "assets/img/garbage-hover.svg";
+              }
+              else {
+                e.target.src = "assets/img/undo.svg";
+              }
+            })
+
+            item.addEventListener('mouseleave', e => {
+              if (e.target.alt === 'delete') {
+                e.target.src = "assets/img/garbage.svg";
+              }
+              else {
+                e.target.src = "assets/img/undo-hover.svg";
+              }
+            })
+        })
+    }
+
+    toggleIconsHover();
+
+    function addPorduct(){
+        console.log("addPorduct")
+        var product = new Object();
+        product.Image = imgInp.val();
+        product.ProductName = nameInp.val();
+        product.Description = descriptionInp.val();
+        product.CategoryId = $('#CategoryId option:selected').val();
+        product.Price = pricInp.val();
+        if(
+            product.Image &&
+            product.ProductName &&
+            product.Description &&
+            $.isNumeric(product.Price)
+        ){
+            $.ajax(
+            {
+                type: "POST",
+                url: `/Admin/add?Image=${product.Image}&ProductName=${product.ProductName}&Description=${product.Description}&Price=${product.Price}&CategoryId=${product.CategoryId}`,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(response) {
+                    if (response == null) {
+                    }
+                    else{
+                        getAllProducts();
+                    }
+                }
+            }
+            );
+        }
+    };
+
+    function getAllProducts(){
+        $.ajax(
+            {
+                type: "GEt",
+                url: "/Admin/GetAll",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(response) {
+                    if (response == null) {
+                            console.log("GetAll response is null")
+                    }else{
+                            console.log(response)
+                        $("#tbody").html("");
+                        for(let product of response){
+                            $("#tbody").append(
+                                `
+                                <tr id="${product.productId}" style="height:80px; line-height:80px">
+                                    <td class="product-id">${product.productId}</td>
+                                    <td class="product-image"><img src="${product.image}" alt=""></td>
+                                    <td class="product-name">${product.productName}</td>
+                                    <td class="product-description">${product.description}</td>
+                                    <td class="product-price">$<span>${product.price}</span></td>
+                                    <td class="product-category" data-category-id="${product.categoryId}">${product.category.name}</td>
+                                    <td class="product-edit"><img src="assets/img/pencil.svg" alt="edit" onClick="getEditProductToFrom('${product.productId}')"></td>
+                                    <td class="product-delete"><img src="assets/img/garbage.svg" alt="delete" onClick="removeProduct('${product.productId}')"></td>
+                                </tr>
+                                `
+                            )
+                        }
+                        clearForm();
+                        toggleIconsHover();
+                    }
+                },
+                failure: function(response) {
+                    alert(response.responseText);
+                    console.log("GetAll Failure")
+                    console.log(response.responseText)
+                },
+                error: function(response) {
+                    console.log("GetAll error")
+                }
+            }
+        );
+    };
+
+    function clearForm(){
+        imgInp.val('')
+        nameInp.val('')
+        descriptionInp.val('')
+        pricInp.val('')
+    };
+
+    function removeProduct(productId){
+        var deleteImg =  $(`tbody#tbody > tr#${productId} > td.product-delete > img`);
+        var editImg =  $(`tbody#tbody > tr#${productId} > td.product-edit > img`);
+        var categoryId = document.getElementById(productId).querySelector('.product-category').dataset.categoryId;
+        if (deleteImg.attr("alt") === 'delete' && isEditEnd){
+            $(`tbody#tbody > tr#${productId}`).remove();
+            $.ajax({
+                    type: "POST",
+                    url: `/Admin/Remove?productId=${productId}`,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(response) {
+                        if (response == null) {
+                            console.log("removeProduct response is null")
+                        }
+                        else{
+                            console.log("removeProduct successfully")
+                        }
+                    },
+                    failure: function(response) {
+                            console.log("removeProduct failure")
+                    },
+                    error: function(response) {
+                             console.log("removeProduct error")
+                    }
+            });
+        } else if(deleteImg.attr("alt") === 'cancel'){
+            getAllProducts();
+            clearForm();
+            $("form .editTitle").remove();
+            addButton.css("display", "block");
+            editImg.prop("alt", "edit");            
+            deleteImg.prop("alt", "delete");
+            isEditEnd = true;
+            $(`select option[value="${categoryId}"]`).attr("selected",false);
+        }
+    }
+
+    function getEditProductToFrom(productId){
+        var form = ('form')
+        var row = $(`tbody#tbody > tr#${productId}`);
+        var editImg =  $(`tbody#tbody > tr#${productId} > td.product-edit > img`);
+        var deleteImg =  $(`tbody#tbody > tr#${productId} > td.product-delete > img`);
+        var productImgSrc = $(`tbody#tbody > tr#${productId} > .product-image > img`);
+        var productName = $(`tbody#tbody > tr#${productId} > .product-name`);
+        var productDescription = $(`tbody#tbody > tr#${productId} > .product-description`);
+        var productPrice = $(`tbody#tbody > tr#${productId} > .product-price > span`);
+        var productCategory = $(`tbody#tbody > tr#${productId} > .product-category`);
+        var categoryId = document.getElementById(productId).querySelector('.product-category').dataset.categoryId;
+
+        var editTitle = document.querySelector(".editTitle").cloneNode(true)
+        editTitle.classList.remove("templateTitle");
+        if (editImg.attr("alt") === 'edit' && isEditEnd) { 
+            console.log("after if")
+            isEditEnd = false;
+
+            editImg.prop("src", "assets/img/save-hover.svg");
+            editImg.prop("alt", "save");
+            
+            deleteImg.prop("src", "assets/img/undo-hover.svg");
+            deleteImg.prop("alt", "cancel");
+
+            $(`tbody#tbody > tr#${productId} > td`).css("background-color", "#e8910d33");
+            $(`tbody#tbody > tr#${productId} > td.product-image`).css("background-color", "#fff");
+            addButton.css("display", "none");
+            document.querySelector("form").prepend(editTitle)
+
+            clearForm();
+
+            imgInp.val(productImgSrc.attr('src'));
+            nameInp.val(productName.text());
+            descriptionInp.val(productDescription.text());
+            pricInp.val(productPrice.text());
+
+            $(`select option[value="${categoryId}"]`).attr("selected",true);
+            
+            document.querySelector("form").addEventListener("keyup", function () {
+                productImgSrc.prop("src",imgInp.val());
+                productName.text(nameInp.val());
+                productDescription.text(descriptionInp.val());
+                productPrice.text(pricInp.val());
+            })   
+            document.querySelector("select#CategoryId").addEventListener("change", function() {
+                productCategory.text($('#CategoryId option:selected').text());
+            });
+
+        }
+        else if(editImg.attr("alt") === 'save'){
+            if (true) {
+                $.ajax(
+                    {
+                        type: "PUT",
+                        url: `/Admin/update?id=${productId}&Image=${imgInp.val()}&ProductName=${nameInp.val()}&Description=${descriptionInp.val()}&Price=${pricInp.val()}&CategoryId=${categoryId}`,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(response) {
+                            if (response == null) {
+                                console.log("Something went wrong");
+                            }
+                            else{
+                                console.log("update successfully");
+                                getAllProducts();
+                                clearForm();
+                                $("form .editTitle").remove();
+                                addButton.css("display", "block");
+                                editImg.prop("alt", "edit");
+                                deleteImg.prop("alt", "delete");
+                                $(`select option[value="${categoryId}"]`).attr("selected",false);
+                                isEditEnd = true;
+                            }
+                        },
+                    }
+                );
+            }
+        }
+    }
+
+</script>
+}
+
+<style>
+    .editTitle {
+        color: #e8910d;
+        color: #e8910d;
+        margin-bottom: -12px;
+        font-size: 22px;
+        margin-top: 10px;
+    }
+    .templateTitle {
+        display: none;
+    }
+
+    .cart-section {
+        margin-top: 150px;
+    }
+
+    h3 {
+        font-size: 40px;
+        padding-bottom: 15px;
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        color: #051922;
+    }
+
+    td.product-image {
+        padding: 0px !important;
+    }
+
+        td.product-image img {
+            height: 90px;
+            width: auto;
+            max-width: 100%;
+        }
+
+
+    td.product-edit img,
+    td.product-delete img {
+        width: 30px;
+        cursor: pointer;
+    }
+
+    td.product-description {
+        white-space: nowrap;
+        max-width: 50px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0px 10px !important;
+    }
+
+    .addBook {
+        width: 100%;
+        background-color: white;
+        border-radius: 15px;
+        margin-right: 30px;
+        box-shadow: rgb(17 17 26 / 5%) 0px 1px 0px, rgb(17 17 26 / 10%) 0px 0px 8px;
+        min-height: 500px;
+        max-height: 569px;
+        position: sticky;
+        top: 150px;
+    }
+
+        .addBook form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+            .addBook form input,
+            .addBook form select,
+            .addBook form textarea {
+                font-weight: 400;
+                font-style: normal;
+                font-stretch: normal;
+                box-sizing: border-box;
+                height: 48px;
+                width: 90%;
+                margin-top: 20px;
+                padding: 0 12px;
+                border: 1px solid #f1f2f6;
+                border-radius: 15px;
+                font-size: 16px;
+                text-align: left;
+                letter-spacing: 0.3px;
+                -webkit-appearance: none;
+                appearance: none;
+                background-color: #f1f2f6;
+                box-shadow: none;
+                caret-color: #a1a9c3;
+                color: #132968;
+                transition: border 0.15s;
+                padding-left: 35px;
+            }
+
+            .addBook form textarea {
+                height: 90px;
+            }
+
+        .addBook input:hover,
+        .addBook textarea:hover,
+        .addBook select:hover,
+        .addBook input:focus,
+        .addBook select:focus,
+        .addBook textarea:focus {
+            border: 1px solid #a1a9c3;
+            outline: 0;
+        }
+
+        .addBook input:focus,
+        .addBook select:focus,
+        .addBook textarea:focus {
+            border: 1px solid #a1a9c3;
+            box-shadow: 0 0 0 0.2rem #a1a9c336;
+        }
+
+        .addBook form input.inValid {
+            border-color: #dc3545;
+            padding-right: 35px;
+            background: url("imgs/xCircle.svg");
+            background-size: 30px;
+            background-repeat: no-repeat;
+            background-size: 21px;
+            background-position: 97% 50%;
+        }
+
+            .addBook form input.inValid:hover,
+            .addBook form input.inValid:focus {
+                border-color: #dc3545;
+                box-shadow: 0 0 0 0.2rem #dc354530;
+            }
+
+        .addBook form button {
+            font-weight: 400;
+            font-weight: bold;
+            height: 48px;
+            width: 90%;
+            margin-top: 20px;
+            padding: 0 12px;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            letter-spacing: 0.3px;
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: #0ec9ae;
+            box-shadow: none;
+            color: white;
+            cursor: pointer;
+            outline: 0;
+        }
+
+</style>

@@ -231,6 +231,9 @@ namespace ecommerceProjectMVC.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 

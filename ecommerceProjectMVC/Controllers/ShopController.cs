@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using cloudscribe.Pagination.Models;
 using System;
 using ecommerceProjectMVC.viewModel;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +32,8 @@ namespace ecommerceProjectMVC.Controllers
 
             if (id != 0)
             {
-                return View(await PaginatedList<Product>.CreateAsync(_db.Products , pagenumber ,3));
+                var prodByCat = _db.Products.Where(p=> p.CategoryId == id);
+                return View(await PaginatedList<Product>.CreateAsync(prodByCat, pagenumber ,3));
             }
 
 

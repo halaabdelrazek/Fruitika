@@ -99,20 +99,33 @@
 
 
 	<script>
-		
+			//var counter = document.getElementById("counter");
+			
+			//var price = @Model.product.Price;
+			//var totalPrice = (price*quantity);
+			
+		var id = @Model.cart.ProductId;
+		var arr = [];
+		var items = {};
+
 		function addToCart(){
-			var counter = document.getElementById("counter");
-			var id = @Model.cart.ProductId;
-			var quantity = document.getElementById("cart_quantity").value;
-			var price = @Model.product.Price;
-			var totalPrice = (price*quantity);
-			var userId = @Model.cart.;
-			localStorage.setItem("ProductId",id);
-			localStorage.setItem("Quantity",quantity);
-			localStorage.setItem("TotalPrice",totalPrice);
-			localStorage.setItem("userId",userId);
-			if(quantity){
-				counter.innerHTML ++;
+		var quantity = document.getElementById("cart_quantity").value;
+			items = {
+				id,
+				quantity,
 			}
+			//console.log();
+			arr.push(JSON.parse(localStorage.getItem('cartContent')));
+			//for(var item in items){
+			//	arr.push(`${item}:${items[item]}`);
+			//}
+			arr.push(items)
+			localStorage.setItem("cartContent",JSON.stringify(arr));
+			//localStorage.clear()
+			//localStorage.setItem("Quantity",quantity);
+			//localStorage.setItem("TotalPrice",totalPrice);
+			//if(quantity){
+			//	counter.innerHTML ++;
+			//}
 		}
 	</script>

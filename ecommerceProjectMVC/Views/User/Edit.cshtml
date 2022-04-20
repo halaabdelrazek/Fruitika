@@ -1,0 +1,167 @@
+﻿@model UserProfileViweModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "_Fruitikha";
+}
+
+<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>We sale fresh fruits</p>
+						<h1>Account Settings</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+		<section class="py-5 my-5">
+
+			<div class="container">
+				<div class="bg-white shadow rounded-lg d-block d-sm-flex">
+					<div class="profile-tab-nav border-right">
+						
+						<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+							<a class="nav-link active" id="account-tab" data-toggle="pill" href="#account" role="tab" aria-controls="account" aria-selected="true">
+								<i class="fa fa-home text-center mr-1"></i> 
+								Account
+							</a>
+
+							<a class="nav-link" id="password-tab" data-toggle="pill" href="#password" role="tab" aria-controls="password" aria-selected="false">
+								<i class="fa fa-key text-center mr-1"></i> 
+								Password
+							</a>
+					
+						</div>
+					</div>
+					<div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
+
+						<div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
+					<form enctype="multipart/form-data" asp-action="SaveEdit" asp-controller="User" asp-route-id="@Model.Id" method="post">
+								
+							<h3 class="mb-4">Account Settings</h3>
+								<div class="p-4">
+										<div class="img-circle text-center mb-3">
+											 @if(@Model.Image == "" || @Model.Image == null || string.IsNullOrEmpty(@Model.Image))
+												 {
+													<img src="/assets/img/user-icon.png" alt="Image" class="shadow">
+
+												}
+											 else 
+												 {
+													  <img src="/assets/img/@Model.Image" alt="Image" class="shadow"/>
+	
+												 }
+										</div>
+										<h4 class="text-center">@Model.UserName</h4>
+										   <input  type="file" class="InputFile" asp-for ="@Model.Image" />
+										@*<div class="mb-3">
+										  <label for="formFileSm" class="form-label">Uplode Image</label>
+										  <input class="form-control form-control-sm" id="formFileSm" type="file" asp-for ="@Model.Image"/>
+										</div>*@
+								</div>
+				
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+								  			<label asp-for = "UserName">User Name</label>
+								  			<input asp-for="UserName" class="form-control"/>
+											<span asp-validation-for="UserName" class="text-danger"></span>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+								  			<label asp-for="Email">Email</label>
+								  			<input asp-for="Email" class="form-control"/>
+											<span asp-validation-for="Email" class="text-danger"></span>
+
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+								  			<label asp-for="PhoneNumber">Phone</label>
+								  			<input asp-for="PhoneNumber"  class="form-control"/>
+											<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+								  			<label asp-for="Address">Address</label>
+								  			<input  asp-for="Address"  class="form-control"/>
+											<span asp-validation-for="Address" class="text-danger"></span>
+
+										</div>
+									</div>
+
+								</div>
+								<div>
+									<button type="submit" class="btn Update">Update</button>
+									@*<input type="submit" value="Update" class="btn Update" />*@
+
+									<a  asp-action="details" asp-controller="user"  class="btn btn-light">Cancel</a>
+								</div>
+							</form>
+						</div>
+				
+
+					<div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
+						<form asp-action="SaveEditPassword" asp-controller="User"  method="post">
+								
+							<h3 class="mb-4">Password Settings</h3>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+								  			<label asp-for="OldPassword" >Old password</label>
+								  			<input asp-for="OldPassword" class="form-control">
+											<span asp-validation-for="OldPassword" class="text-danger"></span>
+
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+								  			<label  asp-for="NewPassword">New password</label>
+								  			<input asp-for="NewPassword"  class="form-control">
+											<span asp-validation-for="NewPassword" class="text-danger"></span>
+
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+								  			<label asp-for="ConfirmPassword">Confirm new password</label>
+								  			<input asp-for="ConfirmPassword" class="form-control">
+											<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+										
+										  </div>
+									</div>
+								</div>
+								<div>
+									 <button type="submit" class="btn Update"
+									>Update</button>
+
+
+
+									 <a  asp-action="details" asp-controller="user"  class="btn btn-light">Cancel</a>
+
+								</div>
+							</form>	
+
+						</div>
+					
+					</div>
+				</div>
+			</div>
+	</section>
+
+	
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+

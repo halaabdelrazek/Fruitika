@@ -1,0 +1,92 @@
+﻿@model List<ProductOrder>
+@{
+    ViewData["Title"] = "GetUserOrders";
+    Layout = "~/Views/Shared/_Fruitikha.cshtml";
+}
+
+
+<div class="breadcrumb-section breadcrumb-bg" style="height:30px">
+		<div class="container" style="height:30px">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Fresh and Organic</p>
+						<h1>User Orders</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- cart -->
+@if (Model.Count() == 0)
+{
+	<div style="height:500px;" class="d-flex justify-content-center  align-items-center">
+		<h1>No orders Yet..</h1>
+	</div>
+}
+@foreach(var o in ViewBag.orders){
+
+									
+<div class="cart-section mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12">
+					<div class="cart-table-wrap">
+						@*accordion*@
+									<div class="accordion" id="accordionExample">
+									  <div class="accordion-item">
+										<div class="accordion-header" id="headingOne">
+										  <div class="accordion-button" type="button"  aria-expanded="true">
+											
+			 <h6 >order to: &nbsp; @o.Address &nbsp; &nbsp; submitted at: &nbsp; @o.Date &nbsp; &nbsp; @o.Status  </h6>
+											
+										  </div>
+										</div>
+										<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+										  <div class="accordion-body">
+											  	
+											  <table class="cart-table">
+							<thead class="cart-table-head">
+								<tr class="table-head-row">
+									
+									<th class="product-image">Product Image</th>
+									<th class="product-name">Name</th>
+									<th class="product-price">Price</th>
+									<th class="product-quantity">Quantity</th>
+								
+								</tr>
+							</thead>
+							@foreach(var po in Model){
+								if(po.OrderId==o.OrderId){
+							<tbody>
+								<tr class="table-body-row">
+									
+									<td class="product-image"><img src="assets/img/products/@po.Product.Image" alt=""></td>
+									<td class="product-name">@po.Product.ProductName</td>
+									<td class="product-price">@po.Product.Price</td>
+									<td class="product-quantity">@po.Quantity</td>
+								
+								</tr>
+								
+							</tbody>
+								}
+							}
+						</table>
+						
+
+										  </div>
+										</div>
+									  </div>
+								
+									  </div>
+									
+									@*accordio*@
+						
+					</div>
+				</div>		
+			</div>
+		</div>
+	</div>
+	}
+	<!-- end cart -->

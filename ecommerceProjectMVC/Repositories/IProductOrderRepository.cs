@@ -10,5 +10,7 @@ namespace ecommerceProjectMVC.Repositories
         int Insert(Product product, Order order, int quantity);
         int Update(int ProductOrderId, ProductOrder newpo);
         int Delete(int ProductOrderId);
+
+        public List<ProductOrder> GetProductOrdersByOrderIds(List<int> userorderidsList);
     }
 }

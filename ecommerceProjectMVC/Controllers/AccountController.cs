@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
+
 using System.Threading.Tasks;
 using System.Security.Claims;
-using System.Linq;
+
 
 namespace ecommerceProjectMVC.Controllers
 {
@@ -15,13 +15,11 @@ namespace ecommerceProjectMVC.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly ContextEntities context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,ContextEntities context)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.context = context;
         }
 
         [HttpGet]
@@ -51,10 +49,12 @@ namespace ecommerceProjectMVC.Controllers
                 newUserModel.Email = newUser.Email;
                 newUserModel.Image = newUser.Image;
                 newUserModel.PhoneNumber = newUser.PhoneNumber;
+                
 
                 IdentityResult result = await userManager.CreateAsync(newUserModel, newUser.Password);
                 if (result.Succeeded)
                 {
+                    await userManager.AddToRoleAsync(newUserModel, "User");
                     await signInManager.SignInAsync(newUserModel, false);
                     return RedirectToAction("Index", "HomePage");
 
@@ -163,12 +163,7 @@ namespace ecommerceProjectMVC.Controllers
 
 
         }
-        public async Task<ActionResult> GetUserOrders()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<Order> userorderList = context.Orders.Where(o => o.ApplicationUserId == userId).ToList();
-            return View();
-        }
+     
 
     }
 }

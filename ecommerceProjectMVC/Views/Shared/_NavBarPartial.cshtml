@@ -22,11 +22,11 @@
 								<li><a asp-action="Index" asp-controller="CheckOut">Checkout</a></li>
 								@if (User.Identity.IsAuthenticated == true)
 									{
-								<li><a >User</a>
+								<li><a asp-action="details" asp-controller="user">User</a>
 									<ul class="sub-menu">
 										@if (User.IsInRole("Admin"))
 									{
-										<li><a asp-action="Index" asp-controller="AdminPage">DashBoard</a></li>
+										<li><a asp-action="Index" asp-controller="Admin">DashBoard</a></li>
 									}
 										<li><a asp-action="details" asp-controller="user">My Profile</a></li>
 										<li><a asp-action="getuserorders" asp-controller="user">My Orders</a></li>

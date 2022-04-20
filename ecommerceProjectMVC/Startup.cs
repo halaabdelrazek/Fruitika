@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ReflectionIT.Mvc.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,10 @@ namespace ecommerceProjectMVC
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ContextEntities>();
+
+
+            services.AddPaging();
+
 
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IProductOrderRepository,ProductOrderRepository>();

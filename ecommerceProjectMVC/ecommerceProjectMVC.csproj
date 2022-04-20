@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+
     <Compile Remove="Migrations\**" />
     <Content Remove="Migrations\**" />
     <EmbeddedResource Remove="Migrations\**" />
@@ -32,6 +33,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="ReflectionIT.Mvc.Paging" Version="6.0.1" />
   </ItemGroup>
 
 </Project>

@@ -54,8 +54,8 @@ namespace ecommerceProjectMVC.Controllers
                 IdentityResult result = await userManager.CreateAsync(newUserModel, newUser.Password);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(newUserModel, "User");
-                    await signInManager.SignInAsync(newUserModel, false);
+			
+					await signInManager.SignInAsync(newUserModel, false);
                     return RedirectToAction("Index", "HomePage");
 
                 }

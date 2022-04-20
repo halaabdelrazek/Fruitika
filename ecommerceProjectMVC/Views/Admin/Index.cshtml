@@ -173,6 +173,10 @@
         })
     }
 
+     //document.querySelector("select#CategoryId").addEventListener("change", function() {
+     //     productCategory.text($('#CategoryId option:selected').text());
+     //});
+
     toggleIconsHover();
 
     function addPorduct(){
@@ -343,15 +347,19 @@
             })   
             document.querySelector("select#CategoryId").addEventListener("change", function() {
                 productCategory.text($('#CategoryId option:selected').text());
+                //$(`select option[value="${categoryId}"]`).attr("selected",false);
             });
 
         }
         else if(editImg.attr("alt") === 'save'){
+            var changedCategoryId = $('#CategoryId option:selected').val();
+            console.log("changedCategoryId");
+            console.log(changedCategoryId);
             if (true) {
                 $.ajax(
                     {
                         type: "PUT",
-                        url: `/Admin/update?id=${productId}&Image=${imgInp.val()}&ProductName=${nameInp.val()}&Description=${descriptionInp.val()}&Price=${pricInp.val()}&CategoryId=${categoryId}`,
+                        url: `/Admin/update?id=${productId}&Image=${imgInp.val()}&ProductName=${nameInp.val()}&Description=${descriptionInp.val()}&Price=${pricInp.val()}&CategoryId=${changedCategoryId}`,
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function(response) {

@@ -56,5 +56,11 @@ namespace ecommerceProjectMVC.Repositories
             DB.SaveChanges();
             return 1;
         }
+        public List<ProductOrder> GetProductOrdersByOrderIds( List<int> userorderidsList)
+		{
+           return DB.ProductOrders.Include(po => po.Product).Include(po => po.Order).Where(po => userorderidsList.Contains(po.OrderId)).ToList();
+           
+
+        }
     }
 }

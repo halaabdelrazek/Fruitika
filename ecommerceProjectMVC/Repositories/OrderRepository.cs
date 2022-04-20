@@ -52,6 +52,14 @@ namespace ecommerceProjectMVC.Repositories
             context.Orders.Remove(GetByID(id));
             return context.SaveChanges();
         }
+        public List<int> GetOrderIdsByUser(string userId)
+		{
+            return context.Orders.Where(o => o.ApplicationUserId == userId).Select(o => o.OrderId).ToList();
+        }
+        public List<Order>GetOrdersByUser(string userId)
+		{
+            return context.Orders.Where(o => o.ApplicationUserId == userId).ToList();
+        }
 
 
     }

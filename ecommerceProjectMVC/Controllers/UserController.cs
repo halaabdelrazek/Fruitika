@@ -9,6 +9,10 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Security.Claims;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using ecommerceProjectMVC.Repositories;
 
 namespace ecommerceProjectMVC.Controllers
 {
@@ -16,16 +20,19 @@ namespace ecommerceProjectMVC.Controllers
     public class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ContextEntities context;
+		private readonly IProductOrderRepository prorRepo;
+		private readonly IOrderRepository orderRepo;
+		IWebHostEnvironment webHostEnvironment;
 
-
-        IWebHostEnvironment webHostEnvironment;
-
-        public UserController(UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
+        public UserController(UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment, ContextEntities context,IProductOrderRepository prorRepo,IOrderRepository orderRepo)
         {
             this.userManager = userManager;
             this.webHostEnvironment = webHostEnvironment;
-
-        }
+            this.context = context;
+			this.prorRepo = prorRepo;
+			this.orderRepo = orderRepo;
+		}
 
 
         public IActionResult Index()
@@ -179,6 +186,16 @@ namespace ecommerceProjectMVC.Controllers
 
 
 
+        }
+        [Authorize]
+        public async Task<ActionResult> GetUserOrders()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<int> userorderidsList = orderRepo.GetOrderIdsByUser(userId);
+            List<Order> userorderList = orderRepo.GetOrdersByUser(userId);
+            ViewBag.orders = userorderList;
+            List<ProductOrder> userProductOrderList = prorRepo.GetProductOrdersByOrderIds(userorderidsList);
+            return View(userProductOrderList);
         }
     }
 }

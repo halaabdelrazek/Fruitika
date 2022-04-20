@@ -10,5 +10,7 @@ namespace ecommerceProjectMVC.Repositories
         Order GetByID(int id);
         int Insert(Order ord);
         int Update(int id, Order ord);
+        public List<int> GetOrderIdsByUser(string userId);
+        public List<Order> GetOrdersByUser(string userId);
     }
 }

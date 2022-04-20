@@ -1,16 +1,20 @@
 ﻿using ecommerceProjectMVC.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ecommerceProjectMVC.Repositories
 {
-    public class CartRepository : ICartRepository
+    public class CartRepository :ICartRepository
     {
         ContextEntities context;
-        public CartRepository(ContextEntities _context)
+        IProductRepository productRepository;
+        public CartRepository(ContextEntities _context, IProductRepository _productRepository)
         {
             context = _context;
-
+            productRepository = _productRepository;
         }
+
+       
         public int Delete(int id)
         {
             context.Carts.Remove(GetById(id));
@@ -18,38 +22,74 @@ namespace ecommerceProjectMVC.Repositories
         }
 
         public List<Cart> GetAll()
-        {
-            throw new System.NotImplementedException();
+        {   
+            return context.Carts.ToList();
         }
 
-        public List<int> GetAllProductIds(int id)
+        public List<Cart> GetCartContent(string _applicationUserId)
         {
-            throw new System.NotImplementedException();
+            return context.Carts.Where(cart => cart.ApplicationUserId == _applicationUserId).ToList();
+        }
+
+        public List<int> GetProductsIds(List<Cart> cartContent)
+        {
+            return cartContent.Select(item => item.ProductId).ToList();
         }
 
         public Cart GetById(int id)
         {
-            throw new System.NotImplementedException();
+            return context.Carts.FirstOrDefault(cart => cart.CartId == id);
         }
 
-        public Cart GetByUserId(string userId)
-        {
-            throw new System.NotImplementedException();
-        }
 
-        public List<Product> GetCartProducts(int id)
+        public List<Product> GetCartProducts(List<int> productsIds)
         {
-            throw new System.NotImplementedException();
+            List<Product> cartProducts = new List<Product>();
+            foreach (int productId in productsIds)
+            {
+                cartProducts.Add(productRepository.getById(productId));
+            }
+            return cartProducts;
         }
 
         public int Insert(Cart newCart)
         {
-            throw new System.NotImplementedException();
+            //newCart.Price = productRepository.getById(newCart.ProductId).Price * newCart.Quantity;
+            context.Carts.Add(newCart);
+            return context.SaveChanges();
+        }
+        public double GetCartTotalPrice(string applicationUser)
+        {
+            double totalPrice = 0;
+            List<Product> products = GetCartProducts(GetProductsIds(GetCartContent(applicationUser)));
+            foreach (Product product in products)
+            {
+                totalPrice += product.Price;
+            }
+            return totalPrice;
+
         }
 
-        public int Update(int id, Cart updatedCart)
+        public int UpdateProductQuantityAndPrice(int quantity, int productId, string userId)
         {
-            throw new System.NotImplementedException();
+            List<Cart> userCarts=GetCartContent(userId);
+            Cart cartItem=userCarts.FirstOrDefault(cart => cart.ProductId == productId);
+            cartItem.Price=(cartItem.Price/cartItem.Quantity)*quantity;
+            cartItem.Quantity = quantity;
+            return context.SaveChanges();
+            
         }
+
+        public int ClearOutCart(string userId)
+        {
+            List<Cart> userCartItems=context.Carts.Where(cart=>cart.ApplicationUserId == userId).ToList();
+            
+            foreach (Cart cart in userCartItems)
+            {
+                context.Carts.Remove(cart);
+            }
+            return context.SaveChanges();
+        }
+
     }
 }

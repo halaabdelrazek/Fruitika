@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using System.Linq;
 
 namespace ecommerceProjectMVC.Controllers
 {
@@ -12,16 +15,22 @@ namespace ecommerceProjectMVC.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly ContextEntities context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,ContextEntities context)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.context = context;
         }
 
         [HttpGet]
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "HomePage");
+            }
             return View();
         }
         [HttpPost]
@@ -41,6 +50,7 @@ namespace ecommerceProjectMVC.Controllers
                 newUserModel.PasswordHash = newUser.Password;
                 newUserModel.Email = newUser.Email;
                 newUserModel.Image = newUser.Image;
+                newUserModel.PhoneNumber = newUser.PhoneNumber;
 
                 IdentityResult result = await userManager.CreateAsync(newUserModel, newUser.Password);
                 if (result.Succeeded)
@@ -74,12 +84,17 @@ namespace ecommerceProjectMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult login()
+        public IActionResult login(string returnUrl = "~/Homepage/Index")
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "HomePage");
+            }
+            ViewData["ReturnUrl"]=returnUrl;
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> login(loginViewModel user)
+        public async Task<IActionResult> login(loginViewModel user,string returnUrl="~/Homepage/Index")
         {
             ApplicationUser foundedUser = await userManager.FindByNameAsync(user.UserName);
             if (foundedUser != null)
@@ -88,7 +103,7 @@ namespace ecommerceProjectMVC.Controllers
                 if (result == true)
                 {
                     await signInManager.SignInAsync(foundedUser, user.RememberMe);
-                    return RedirectToAction("Index", "HomePage");
+                    return LocalRedirect(returnUrl);
 
                 }
             }
@@ -119,6 +134,8 @@ namespace ecommerceProjectMVC.Controllers
                 newUserModel.PasswordHash = newUser.Password;
                 newUserModel.Email = newUser.Email;
                 newUserModel.Image = newUser.Image;
+                newUserModel.PhoneNumber = newUser.PhoneNumber;
+
                 IdentityResult result = await userManager.CreateAsync(newUserModel, newUser.Password);
                 if (result.Succeeded)
                 {
@@ -145,6 +162,12 @@ namespace ecommerceProjectMVC.Controllers
             return View(newUser);
 
 
+        }
+        public async Task<ActionResult> GetUserOrders()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<Order> userorderList = context.Orders.Where(o => o.ApplicationUserId == userId).ToList();
+            return View();
         }
 
     }

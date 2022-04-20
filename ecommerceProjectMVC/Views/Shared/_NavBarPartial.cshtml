@@ -15,47 +15,26 @@
 						<!-- menu start -->
 						<nav class="main-menu">
 							<ul>
-								<li class="current-list-item"><a href="#">Home</a>
-									<ul class="sub-menu">
-										<li><a href="index.html">Static Home</a></li>
-										<li><a href="index_2.html">Slider Home</a></li>
-									</ul>
-								</li>
-								<li><a href="about.html">About</a></li>
-								<li><a href="#">Pages</a>
-									<ul class="sub-menu">
-										<li><a href="404.html">404 page</a></li>
-										<li><a href="about.html">About</a></li>
-										<li><a href="cart.html">Cart</a></li>
-										<li><a href="checkout.html">Check Out</a></li>
-										<li><a href="contact.html">Contact</a></li>
-										<li><a href="news.html">News</a></li>
-										<li><a href="shop.html">Shop</a></li>
+								<li class="current-list-item"><a asp-action="Index" asp-controller="HomePage">Home</a>
 								
-
-									</ul>
 								</li>
-								<li><a href="news.html">News</a>
+								
+								<li><a asp-action="Index" asp-controller="CheckOut">Checkout</a></li>
+								@if (User.Identity.IsAuthenticated == true)
+									{
+								<li><a >User</a>
 									<ul class="sub-menu">
-										<li><a href="news.html">News</a></li>
-										<li><a href="single-news.html">Single News</a></li>
+										@if (User.IsInRole("Admin"))
+									{
+										<li><a asp-action="Index" asp-controller="AdminPage">DashBoard</a></li>
+									}
+										<li><a asp-action="details" asp-controller="user">My Profile</a></li>
+										@*<li><a asp-action="details" asp-controller="user">My Orders</a></li>*@
 									</ul>
 								</li>
-								<li><a href="contact.html">Contact</a></li>
-								<li><a href="shop.html">Shop</a>
-									<ul class="sub-menu">
-										<li><a href="shop.html">Shop</a></li>
-										<li><a href="checkout.html">Check Out</a></li>
-										<li><a href="single-product.html">Single Product</a></li>
-										<li><a href="cart.html">Cart</a></li>
-									</ul>
-								</li>
-								<li>
-									<div class="header-icons">
-										<a class="shopping-cart" href="/cart"><i class="fas fa-shopping-cart"></i></a>
-										<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-									</div>
-								</li>
+									}
+								<li><a asp-action="index" asp-controller="shop">Shop</a></li>
+						
 									@if (User.Identity.IsAuthenticated == false)
 									{
 										<li><a asp-action="Login" asp-controller="Account">Login</a></li>
@@ -69,10 +48,21 @@
 									<li><a asp-action="registeradmin" asp-controller="Account">Add admin</a></li>									
 									}
 									}
+								<li>
+									<form name="lcForm" asp-action="GetData" asp-controller="Cart" method="post"  onsubmit="submitForm();">
+										<div class="header-icons">
+											<input type="hidden" value="" name="lcInput"/>
+											<button type="submit" class="shopping-cart"><i class="fas fa-shopping-cart"></i></button>
+
+										</div>
+									</form>
+							
+								</li>
+								
 							</ul>
 						</nav>
-						<a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-						<div class="mobile-menu"></div>
+						
+					
 						<!-- menu end -->
 					</div>
 				</div>
@@ -80,3 +70,27 @@
 		</div>
 	</div>
 	<!-- end header -->
+
+
+	<script>
+		function submitForm(){
+			//console.log("to cart")
+			////let items=[{id:5,quantity:2},{id:2,quantity:3}]
+			////window.localStorage.setItem("cartContent",JSON.stringify(items))
+			var items=localStorage.getItem("cartContent")
+			//console.log(items)
+			// $.ajax({
+			//	url: "/cart/GetData",
+			//	type: "POST",
+			//	data: { items, },
+			//	success:(result)=>{
+			//		console.log("success")
+			//	}
+			//});
+			////window.location.href='./cart/Test'
+			  document.lcForm.lcInput.value = items;
+			return true;
+
+			
+		}
+	</script>

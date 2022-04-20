@@ -4,15 +4,24 @@
     ViewData["Title"] = "RegisterAdmin";
     Layout = "~/Views/Shared/_Fruitikha.cshtml";
 }
-
-<h1>RegisterAdmin</h1>
-
-<h4>RegisterViewModel</h4>
-<hr />
+<div class="breadcrumb-section breadcrumb-bg" style="height:30px">
+		<div class="container" style="height:30px">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Fresh and Organic</p>
+						<h1>Admin Registeration</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<div class="container">
+        <main role="main" class="pb-3">
 <div class="row">
     <div class="col-md-4">
         <form asp-action="RegisterAdmin">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="UserName" class="control-label"></label>
                 <input asp-for="UserName" class="form-control" />
@@ -39,21 +48,27 @@
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
                 <input asp-for="Image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Add" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-controller="HomePage">Back to List</a>
 </div>
-
+</main>
+</div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

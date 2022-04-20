@@ -5,6 +5,7 @@ namespace ecommerceProjectMVC.ViewModels
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name ="Name")]
         public string UserName { get; set; }
 
         public string Email { get; set; }
@@ -21,6 +22,9 @@ namespace ecommerceProjectMVC.ViewModels
 
         [Required]
         public string Address { get; set; }
+        [Required]
+
+        public string PhoneNumber { get; set; }
 
 
         public string Image { get; set; }

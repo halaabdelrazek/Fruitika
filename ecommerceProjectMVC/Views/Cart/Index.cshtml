@@ -5,7 +5,25 @@
 	Layout = "_Fruitikha";
 	double subTotal = 0;
 	int shipping = 20;
+
+	
+
 }
+
+		<script>
+
+		function deleteRow(e){
+			const table=document.getElementById("cart-table")
+			const rowNumber=e.path[3].rowIndex;
+			table.deleteRow(rowNumber);
+			//var sessionData= "System.Web.HttpContext.Session.GetString("cartContent").ToString()";
+
+			Console.log(sessionData);
+		
+		}
+	</script>
+
+
 
 
 	<!-- cart -->
@@ -14,7 +32,7 @@
 			<div class="row">
 				<div class="col-lg-8 col-md-12">
 					<div class="cart-table-wrap">
-						<table class="cart-table">
+						<table class="cart-table" id="cart-table">
 							<thead class="cart-table-head">
 								<tr class="table-head-row">
 									<th class="product-remove"></th>
@@ -30,8 +48,8 @@
 								@foreach (var cartItem in Model)
 							   {
 								   subTotal+=cartItem.TotalPrice;
-								   <tr class="table-body-row">
-										<td class="product-remove"><a href="../RemoveItem/@cartItem.ProductId"><i class="far fa-window-close"></i></a></td>
+								   <tr class="table-body-row" id="@cartItem.ProductId">
+										<td class="product-remove"><a  href="#" onclick="deleteRow(event)"><i class="far fa-window-close"></i></a></td>
 										<td class="product-image"><img src=@cartItem.ProductImage alt=""></td>
 										<td class="product-name">@cartItem.ProductName</td>
 										<td class="product-price">@cartItem.UnitPrice</td>
@@ -74,7 +92,7 @@
 						</div>
 					</div>
 
-					<div class="coupon-section">
+	@*				<div class="coupon-section">
 						<h3>Apply Coupon</h3>
 						<div class="coupon-form-wrap">
 							<form action="index.html">
@@ -82,7 +100,7 @@
 								<p><input type="submit" value="Apply"></p>
 							</form>
 						</div>
-					</div>
+					</div>*@
 				</div>
 			</div>
 		</div>

@@ -30,7 +30,14 @@ namespace ecommerceProjectMVC
 
             services.AddControllersWithViews();
 
-           
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(100000);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             services.AddDbContext<ContextEntities>(builder => {
                 builder.UseSqlServer(Configuration.GetConnectionString("CS"));
@@ -67,7 +74,7 @@ namespace ecommerceProjectMVC
             app.UseAuthentication();
 
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

@@ -1,5 +1,6 @@
 ﻿using ecommerceProjectMVC.Models;
 using ecommerceProjectMVC.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -21,30 +22,64 @@ namespace ecommerceProjectMVC.Controllers
         public IActionResult Index()
         {
             string userId = "4587574d-9f4d-40dd-a213-2c69f3a91cd5";
-            ViewBag.cartContent = JsonConvert.DeserializeObject<List<LCViewModel>>((string)TempData["cartContentJson"]);
             List<ProductNameAndImageAndQuantityAndPriceViewModel> cartItems = new List<ProductNameAndImageAndQuantityAndPriceViewModel>();
+            #region oldCode
+            //if (TempData["cartContentJson"] is not null)
+            //{
+            //    ViewBag.cartContent = JsonConvert.DeserializeObject<List<LCViewModel>>((string)TempData["cartContentJson"]);
 
-            foreach (var item in ViewBag.cartContent)
-            {
-                Product product = productRepository.getById(int.Parse(item.Id));
-                cartItems.Add(new ProductNameAndImageAndQuantityAndPriceViewModel(){ProductId=product.ProductId,
-                                                                                    ProductName=product.ProductName,
-                                                                                    ProductImage=product.Image,
-                                                                                    UnitPrice=product.Price,
-                                                                                    TotalPrice=product.Price*item.Quantity,
-                                                                                    Quantity=item.Quantity
-                                                                                     });
+            //    foreach (var item in ViewBag.cartContent)
+            //    {
+
+            //        Product product = productRepository.getById(int.Parse(item.Id));
+            //        ProductNameAndImageAndQuantityAndPriceViewModel  cartItem= new ()
+            //        {
+            //            ProductId = product.ProductId,
+            //            ProductName = product.ProductName,
+            //            ProductImage = product.Image,
+            //            UnitPrice = product.Price,
+            //            TotalPrice = product.Price * item.Quantity,
+            //            Quantity = item.Quantity
+            //        };
+            //        cartItems.Add(cartItem);
+            //    }
+
+            //    //string cartSessionStr = JsonConvert.SerializeObject(cartItems);
+            //}
+            //else
+            //{
+            #endregion
+            var cartStr = HttpContext.Session.GetString("cartContent").ToString();
+                var cartItemsLC = JsonConvert.DeserializeObject<List<LCViewModel>>(cartStr);
+                foreach (var item in cartItemsLC)
+                {
+
+                    Product product = productRepository.getById(int.Parse(item.Id));
+                    ProductNameAndImageAndQuantityAndPriceViewModel cartItem = new()
+                    {
+                        ProductId = product.ProductId,
+                        ProductName = product.ProductName,
+                        ProductImage = product.Image,
+                        UnitPrice = product.Price,
+                        TotalPrice = product.Price * item.Quantity,
+                        Quantity = item.Quantity
+                    };
+                    cartItems.Add(cartItem);
+ 
             }
-            //List<Cart> cartItems = cartRepository.GetCartContent(userId);
-            //List<Product> cartProducts=cartRepository.GetCartProducts(cartRepository.GetProductsIds(cartItems));
+
             return View(cartItems);
         }
 
         [HttpPost]
         public ActionResult GetData(string lcInput)
         {
-            List<LCViewModel> cartList = JsonConvert.DeserializeObject<List<LCViewModel>>(lcInput);
-            TempData["cartContentJson"] = JsonConvert.SerializeObject(cartList);
+            #region oldcode
+            //    List<LCViewModel> cartList = JsonConvert.DeserializeObject<List<LCViewModel>>(lcInput);
+            //    TempData["cartContentJson"] = JsonConvert.SerializeObject(cartList);
+            //HttpContext.Session.SetString("cartContent", (string)TempData["cartContentJson"]);
+            #endregion
+            HttpContext.Session.SetString("cartContent",lcInput);
             return RedirectToAction("Index");
         }
 

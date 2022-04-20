@@ -78,16 +78,6 @@
 			////let items=[{id:5,quantity:2},{id:2,quantity:3}]
 			////window.localStorage.setItem("cartContent",JSON.stringify(items))
 			var items=localStorage.getItem("cartContent")
-			//console.log(items)
-			// $.ajax({
-			//	url: "/cart/GetData",
-			//	type: "POST",
-			//	data: { items, },
-			//	success:(result)=>{
-			//		console.log("success")
-			//	}
-			//});
-			////window.location.href='./cart/Test'
 			  document.lcForm.lcInput.value = items;
 			return true;
 

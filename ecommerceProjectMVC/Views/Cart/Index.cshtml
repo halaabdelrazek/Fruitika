@@ -79,7 +79,7 @@
 								   subTotal+=cartItem.TotalPrice;
 								   <tr class="table-body-row" id="@cartItem.ProductId">
 										<td class="product-remove"><a  href="#" onclick="deleteCartItem(event)"><i class="far fa-window-close"></i></a></td>
-										<td class="product-image"><img src=@cartItem.ProductImage alt=""></td>
+										<td class="product-image"><img src="/assets/img/products/@cartItem.ProductImage"alt=""></td>
 										<td class="product-name">@cartItem.ProductName</td>
 										<td class="product-price">@cartItem.UnitPrice</td>
 										<td class="product-quantity"><input type="number" placeholder="0" value="@cartItem.Quantity"></td>

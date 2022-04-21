@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ecommerceProjectMVC.Controllers
 {
-    [Authorize (Roles="Admin")]
+    //[Authorize (Roles="Admin")]
     public class RoleController : Controller
     {
         private readonly Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> roleManager;

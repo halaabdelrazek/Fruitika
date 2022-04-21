@@ -19,7 +19,6 @@
 			</div>
 		</div>
 	</div>
-	</div>
 
 <!-- single product -->
 	<div class="single-product mt-150 mb-150">
@@ -27,7 +26,7 @@
 			<div class="row">
 				<div class="col-md-5">
 					<div class="single-product-img">
-						<img src="/assets/img/products/@Model.product.Image" alt="">
+						<img src="@Model.product.Image" alt="">
 					</div>
 				</div>
 				<div class="col-md-7">
@@ -40,7 +39,6 @@
 								<input asp-for="@Model.cart.Quantity" value="" id="cart_quantity" class="form-control"/>
 								<input type="submit" onclick="addToCart()" value="Add To Cart" class="btn btn-primary"/>
 							</form>
-							<p><strong>Category: </strong>@Model.product.Category</p>
 						</div>
 					</div>
 				</div>
@@ -51,7 +49,7 @@
 
 
 	<script>
-			//var counter = document.getElementById("counter");
+			var counter = document.getElementById("counter");
 			
 			//var price = @Model.product.Price;
 			//var totalPrice = (price*quantity);
@@ -79,19 +77,11 @@
 			}
 			}
 			
-				arr.push(items)
-		
-
-			//for(var item in items){
-			//	arr.push(`${item}:${items[item]}`);
-			//}
+			arr.push(items)
 			localStorage.setItem("cartContent",JSON.stringify(arr));
 			//localStorage.clear()
-			//localStorage.clear()
-			//localStorage.setItem("Quantity",quantity);
-			//localStorage.setItem("TotalPrice",totalPrice);
-			//if(quantity){
-			//	counter.innerHTML ++;
-			//}
+			if(quantity){
+				counter.innerHTML ++;
+			}
 		}
 	</script>

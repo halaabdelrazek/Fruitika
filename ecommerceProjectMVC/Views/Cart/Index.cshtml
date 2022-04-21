@@ -73,8 +73,12 @@
 								</tr>
 							</thead>*@
 							<tbody>
-			
-								@foreach (var cartItem in Model)
+								@if(Model is null){
+									<h1> Cart is Emphty!</h1>
+							}
+							else
+							{
+									foreach (var cartItem in Model)
 							   {
 								   subTotal+=cartItem.TotalPrice;
 								   <tr class="table-body-row" id="@cartItem.ProductId">
@@ -86,6 +90,8 @@
 										<td class="product-total">@cartItem.TotalPrice</td>
 								</tr>
 							   }
+							}
+						
 							</tbody>
 						</table>
 					</div>

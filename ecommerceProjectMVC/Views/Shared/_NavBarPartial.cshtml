@@ -79,10 +79,10 @@
 	<script>
 		function submitForm(){
 			//console.log("to cart")
-			////let items=[{id:5,quantity:2},{id:2,quantity:3}]
-			////window.localStorage.setItem("cartContent",JSON.stringify(items))
-			var items=localStorage.getItem("cartContent")
-			  document.lcForm.lcInput.value = items;
+			let items=[{id:5,quantity:2},{id:2,quantity:3}]
+			window.localStorage.setItem("cartContent",JSON.stringify(items))
+			var cartItems=localStorage.getItem("cartContent")
+			  document.lcForm.lcInput.value = cartItems;
 			return true;
 
 			

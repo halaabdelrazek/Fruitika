@@ -1,13 +1,14 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<ProductNameAndPriceViewModel>
 @{
-    ViewData["Title"] = "Index";
-    Layout = "_Fruitikha";
+	ViewData["Title"] = "Index";
+	Layout = "_Fruitikha";
+	var shipping = 20;
+	double subtotal = 0;
 }
 
 
 	<div class="checkout-section mt-150 mb-150">
+		
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8">
@@ -30,7 +31,6 @@
 						        		<p><input type="email" placeholder="Email"></p>
 						        		<p><input type="text" placeholder="Address"></p>
 						        		<p><input type="tel" placeholder="Phone"></p>
-						        		<p><textarea name="bill" id="bill" cols="30" rows="10" placeholder="Say Something"></textarea></p>
 						        	</form>
 						        </div>
 						      </div>
@@ -83,35 +83,28 @@
 								</tr>
 							</thead>
 							<tbody class="order-details-body">
-								<tr>
-									<td>Product</td>
-									<td>Total</td>
+					
+								@foreach (var item in Model)
+							   {
+								  <tr>
+									<td>@item.ProductName</td>
+									<td>@item.Price</td>
 								</tr>
-								<tr>
-									<td>Strawberry</td>
-									<td>$85.00</td>
-								</tr>
-								<tr>
-									<td>Berry</td>
-									<td>$70.00</td>
-								</tr>
-								<tr>
-									<td>Lemon</td>
-									<td>$35.00</td>
-								</tr>
+								subtotal+= item.Price;
+							}
 							</tbody>
 							<tbody class="checkout-details">
 								<tr>
 									<td>Subtotal</td>
-									<td>$190</td>
+									<td>$@subtotal</td>
 								</tr>
 								<tr>
 									<td>Shipping</td>
-									<td>$50</td>
+									<td>$@shipping</td>
 								</tr>
 								<tr>
 									<td>Total</td>
-									<td>$240</td>
+									<td>$@(shipping+subtotal)</td>
 								</tr>
 							</tbody>
 						</table>

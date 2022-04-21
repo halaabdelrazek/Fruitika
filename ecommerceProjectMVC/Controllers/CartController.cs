@@ -21,7 +21,6 @@ namespace ecommerceProjectMVC.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            string userId = "4587574d-9f4d-40dd-a213-2c69f3a91cd5";
             List<ProductNameAndImageAndQuantityAndPriceViewModel> cartItems = new List<ProductNameAndImageAndQuantityAndPriceViewModel>();
             #region oldCode
             //if (TempData["cartContentJson"] is not null)
@@ -50,25 +49,27 @@ namespace ecommerceProjectMVC.Controllers
             //{
             #endregion
             var cartStr = HttpContext.Session.GetString("cartContent").ToString();
-            ViewBag.cartSessionStr=cartStr;
-                var cartItemsLC = JsonConvert.DeserializeObject<List<LCViewModel>>(cartStr);
-                foreach (var item in cartItemsLC)
-                {
-
-                    Product product = productRepository.getById(int.Parse(item.Id));
-                    ProductNameAndImageAndQuantityAndPriceViewModel cartItem = new()
+            //ViewBag.cartSessionStr=cartStr;
+                if(cartStr is not null)
+                 {
+                     var cartItemsLC = JsonConvert.DeserializeObject<List<LCViewModel>>(cartStr);
+                    foreach (var item in cartItemsLC)
                     {
-                        ProductId = product.ProductId,
-                        ProductName = product.ProductName,
-                        ProductImage = product.Image,
-                        UnitPrice = product.Price,
-                        TotalPrice = product.Price * item.Quantity,
-                        Quantity = item.Quantity
-                    };
-                    cartItems.Add(cartItem);
- 
-            }
 
+                        Product product = productRepository.getById(int.Parse(item.Id));
+                        ProductNameAndImageAndQuantityAndPriceViewModel cartItem = new()
+                        {
+                            ProductId = product.ProductId,
+                            ProductName = product.ProductName,
+                            ProductImage = product.Image,
+                            UnitPrice = product.Price,
+                            TotalPrice = product.Price * item.Quantity,
+                            Quantity = item.Quantity
+                        };
+                        cartItems.Add(cartItem);
+
+                     }
+                }
             return View(cartItems);
         }
 

@@ -10,8 +10,8 @@ using ecommerceProjectMVC.Models;
 namespace ecommerceProjectMVC.Migrations
 {
     [DbContext(typeof(ContextEntities))]
-    [Migration("20220414041956_v2")]
-    partial class v2
+    [Migration("20220421210154_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -291,8 +291,20 @@ namespace ecommerceProjectMVC.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("District")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .IsRequired()

@@ -2,24 +2,35 @@
 
 namespace ecommerceProjectMVC.Migrations
 {
-    public partial class v2 : Migration
+    public partial class updateOrderName : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "Image",
-                table: "Products",
+                name: "Status",
+                table: "Orders",
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Name",
+                table: "Orders",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "Name",
+                table: "Orders");
+
             migrationBuilder.AlterColumn<string>(
-                name: "Image",
-                table: "Products",
+                name: "Status",
+                table: "Orders",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "",

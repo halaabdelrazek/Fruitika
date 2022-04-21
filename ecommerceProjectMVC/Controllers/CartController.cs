@@ -50,6 +50,7 @@ namespace ecommerceProjectMVC.Controllers
             #endregion
             var cartStr = HttpContext.Session.GetString("cartContent").ToString();
             //ViewBag.cartSessionStr=cartStr;
+
                 if(cartStr !="[]")
                  {
                      var cartItemsLC = JsonConvert.DeserializeObject<List<LCViewModel>>(cartStr);

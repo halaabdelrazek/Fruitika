@@ -1,9 +1,12 @@
-﻿@model List<ProductNameAndPriceViewModel>
+﻿@using Newtonsoft.Json;
+
+@model List<ProductNameAndIdAndQuantityAndPriceViewModel>
 @{
 	ViewData["Title"] = "Index";
 	Layout = "_Fruitikha";
 	var shipping = 20;
 	double subtotal = 0;
+	var ProductsList = JsonConvert.SerializeObject(Model);
 }
 
 
@@ -45,6 +48,20 @@
             opacity: 0;
             pointer-events: none;
         }
+#submit-btn{
+	font-family: 'Poppins', sans-serif;
+    display: inline-block;
+    background-color: #F28123;
+    color: #fff;
+    padding: 10px 20px;
+	border:none;
+	border-radius: 50px;
+	margin-top:30px;
+}
+#submit-btn:hover{
+	background-color:#000;
+    color:  #F28123;
+}
 </style>
 	<div class="checkout-section mt-150 mb-150">
 		
@@ -65,10 +82,10 @@
 						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
 						      <div class="card-body">
 						        <div class="billing-address-form">
-						        	<form action="index.html">
-						        		<p><input type="text" placeholder="Name"></p>
-						        		<p><input type="email" placeholder="Email"></p>
-										<p><input type="text" placeholder="Country" value="Egypt" disabled></p>
+						        	<form asp-controller="Checkout" asp-action="PlaceOrder" id="submitOrderForm" method="post" >
+						        		<p><input type="text" name="name" placeholder="Name"></p>
+						        		<p><input type="email" name="email" placeholder="Email"></p>
+										<p><input type="text" name="country" placeholder="Country" value="Egypt" disabled></p>
 										<select id="district" name="district">
 										<option>choose a district</option>
 											<option value="Cairo">Cairo</option>
@@ -80,8 +97,9 @@
 											<option value="Sharqia"> Sharqia</option>
 
 										</select>
-						        		<p><input type="text" placeholder="Address"></p>
-						        		<p><input type="tel" placeholder="Phone"></p>
+						        		<p><input type="text" name="address" placeholder="Address"></p>
+						        		<p><input type="tel" name="phone" placeholder="Phone"></p>
+										<input hidden name="productsList" value="@ProductsList"/>
 						        	</form>
 						        </div>
 						      </div>
@@ -159,7 +177,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<a href="#" class="boxed-btn">Place Order</a>
+						<button form="submitOrderForm"  id="submit-btn" class="boxed-btn">Place Order</button>
 					</div>
 				</div>
 			</div>

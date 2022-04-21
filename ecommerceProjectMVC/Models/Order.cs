@@ -18,8 +18,13 @@ namespace ecommerceProjectMVC.Models
 
         [Required(ErrorMessage ="Status Required")]
         [RegularExpression("^(Pending|Cancel|Compelete)$")]
+        public string Name { get; set; }
 
         public string Status { get; set; }
+        public string Country { get; set; }
+        public string District { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "Date Required")]
 

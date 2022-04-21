@@ -10,8 +10,8 @@ using ecommerceProjectMVC.Models;
 namespace ecommerceProjectMVC.Migrations
 {
     [DbContext(typeof(ContextEntities))]
-    [Migration("20220421223539_v2")]
-    partial class v2
+    [Migration("20220421225437_fourth")]
+    partial class fourth
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

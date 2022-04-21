@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ecommerceProjectMVC.Migrations
 {
-    public partial class v1 : Migration
+    public partial class fourth : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

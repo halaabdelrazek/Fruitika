@@ -5,7 +5,15 @@
     ViewData["Title"] = "Home Page";
     Layout = "_Fruitikha";
 }
-
+<style>
+	.li:hover{
+		
+		background-color:#212529;
+	}
+	.li:hover a{
+		color:#F28123 !important;
+	}
+</style>
 	<div class="breadcrumb-section breadcrumb-bg" style="height:60px">
 		<div class="container">
 			<div class="row">
@@ -27,11 +35,11 @@
                 <div class="col-md-12">
                     <div class="product-filters">
                         <ul>
-							<li class="active" data-filter="*"><a asp-action="index" asp-controller="shop" style="color:black;">All</a></li>
+							<li class="li" data-filter="*" style="border: 1px solid #051922" ><a asp-action="index" asp-controller="shop" style="color:black;">All</a></li>
 							@foreach (var category in ViewBag.categories)
 							{
 								
-                            <li data-filter="*"  style="border: 1px solid #051922"><a asp-action="index" asp-controller="shop" style="color:black" asp-route-id="@category.CategoryId"> @category.Name</a></li>
+                            <li class="li" data-filter="*"  style="border: 1px solid #051922;"><a asp-action="index" asp-controller="shop" style="color:black" asp-route-id="@category.CategoryId"> @category.Name</a></li>
 							}
                             
                         </ul>

@@ -3,6 +3,7 @@ using ecommerceProjectMVC.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
@@ -43,6 +44,7 @@ namespace ecommerceProjectMVC.Controllers
                 {
                     ProductId=product.ProductId,
                     ProductName = product.ProductName,
+                    Quantity = item.Quantity,
                     Price = product.Price * item.Quantity
                 };
                 orderItems.Add(orderItem);
@@ -56,8 +58,8 @@ namespace ecommerceProjectMVC.Controllers
         {
           
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Order newOrder=new Order() { Address = address, Country = country ,Email=email,ApplicationUserId=userId,Name=name,
-                                       Phone=phone,District=district     
+            Order newOrder = new Order() { Address = address, Country = country, Email = email, ApplicationUserId = userId, Name = name,
+                Phone = phone, District = district, Date = DateTime.Now    
                                         };
 
             orderRepository.Insert(newOrder);
@@ -68,7 +70,8 @@ namespace ecommerceProjectMVC.Controllers
                 var product=productRepository.getById(item.ProductId);
                 productOrderRepository.Insert(product, newOrder, item.Quantity);
             }
-            return Content($"Hello {name} {email} {country}{productsList}");
+            
+            return RedirectToAction("Index", "HomePage");
         }
     }
 }

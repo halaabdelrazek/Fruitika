@@ -62,7 +62,7 @@
 				<div class="col-lg-8 col-md-12">
 					<div class="cart-table-wrap">
 						<table class="cart-table" id="cart-table">
-						@*	<thead class="cart-table-head">
+							<thead class="cart-table-head">
 								<tr class="table-head-row">
 									<th class="product-remove"></th>
 									<th class="product-image">Product Image</th>
@@ -71,9 +71,9 @@
 									<th class="product-quantity">Quantity</th>
 									<th class="product-total">Total</th>
 								</tr>
-							</thead>*@
+							</thead>
 							<tbody>
-								@if(Model is null){
+								@if(Model.Count ==0){
 									<h1> Cart is Emphty!</h1>
 							}
 							else
@@ -91,13 +91,16 @@
 								</tr>
 							   }
 							}
-						
+													
 							</tbody>
 						</table>
 					</div>
 				</div>
 
-				<div class="col-lg-4">
+
+			@if(Model.Count != 0)
+			{
+								<div class="col-lg-4">
 					<div class="total-section">
 						<table class="total-table">
 							<thead class="total-table-head">
@@ -128,21 +131,16 @@
 									<button type="submit" class="boxed-btn">Update Cart</button>
 								</div>
 							</form>
-@*							<a href="cart.html" class="boxed-btn">Update Cart</a>
-*@							<a href="/checkout" class="boxed-btn black">Check Out</a>
+							<a href="/checkout" class="boxed-btn black">Check Out</a>
 						</div>
 					</div>
 
-	@*				<div class="coupon-section">
-						<h3>Apply Coupon</h3>
-						<div class="coupon-form-wrap">
-							<form action="index.html">
-								<p><input type="text" placeholder="Coupon"></p>
-								<p><input type="submit" value="Apply"></p>
-							</form>
-						</div>
-					</div>*@
+
 				</div>
+			}
+
+
+
 			</div>
 		</div>
 	</div>

@@ -2,7 +2,7 @@
 
 namespace ecommerceProjectMVC.Migrations
 {
-    public partial class initial : Migration
+    public partial class v2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

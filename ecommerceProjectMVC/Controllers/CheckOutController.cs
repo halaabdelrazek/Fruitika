@@ -26,11 +26,10 @@ namespace ecommerceProjectMVC.Controllers
             var cartStr = HttpContext.Session.GetString("cartContent").ToString();
             ViewBag.cartSessionStr = cartStr;
 
-            //if (User.Identity.IsAuthenticated==false)
-            //{
-            //    return RedirectToAction("Login", "Account");
-            //}
-            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (User.Identity.IsAuthenticated == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
 
             List<ProductNameAndIdAndQuantityAndPriceViewModel> orderItems = new List<ProductNameAndIdAndQuantityAndPriceViewModel>();
@@ -55,7 +54,8 @@ namespace ecommerceProjectMVC.Controllers
         [HttpPost]
         public ActionResult PlaceOrder(string name,string email,string phone,string district,string address,string country,string productsList)
         {
-            string userId = "0758fcc5-dafc-415c-88f8-bb88b5f3b0ec";
+          
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Order newOrder=new Order() { Address = address, Country = country ,Email=email,ApplicationUserId=userId,Name=name,
                                        Phone=phone,District=district     
                                         };

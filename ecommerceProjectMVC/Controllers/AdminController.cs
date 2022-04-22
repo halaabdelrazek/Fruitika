@@ -1,10 +1,12 @@
 ﻿using ecommerceProjectMVC.Models;
 using ecommerceProjectMVC.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace ecommerceProjectMVC.Controllers
 {
+    [Authorize(Roles="Admin")]
     public class AdminController : Controller
     {
         IProductRepository productRepository;

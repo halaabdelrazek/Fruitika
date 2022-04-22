@@ -11,6 +11,7 @@ using System.Security.Claims;
 
 namespace ecommerceProjectMVC.Controllers
 {
+
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -112,13 +113,13 @@ namespace ecommerceProjectMVC.Controllers
 
         }
         [HttpGet]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult RegisterAdmin()
         {
             return View();
         }
         [HttpPost]
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAdmin(RegisterViewModel newUser)
         {
